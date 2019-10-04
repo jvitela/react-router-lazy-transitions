@@ -13,7 +13,7 @@ import {
 } from 'lib/Utils'
 
 const AppRouter = () => (
-  <Router>
+  <Router basename="/react-router-lazy-transitions">
         <Route
             render={props => (
                 <TransitionRouter {...props} routes={getRoutes()} />
