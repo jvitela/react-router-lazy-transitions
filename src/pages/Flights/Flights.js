@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { sleep } from 'Utils'
 
 export default function Flights(props) {
-    // console.log('Flights::render', props);
+    console.log('Flights::render'); //, props);
     props = {
         links: { cancel: '/' },
         ...props

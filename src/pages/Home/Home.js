@@ -22,7 +22,7 @@ export default class Home extends Component {
    // componentWillUnmount() { console.log('Home::componentWillUnmount'); }
 
    render() {
-      // console.log('Home::render', this.props);
+      console.log('Home::render'); //, this.props);
       return (
          <div className="App">
             <header className="App-header">

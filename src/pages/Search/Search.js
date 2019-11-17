@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function Search(props) {
     const [isLoading, setLoading] = useState(false);
-    // console.log("Search::render", { isLoading }, props);
-    props = {
-        links: { success: '/' },
-        ...props
-    };
+    console.log("Search::render"); //, { isLoading }, props);
     return (
         <div className="Search">
             <h2>Search Page</h2>
@@ -17,7 +13,7 @@ export default function Search(props) {
 
             <button
                 type="button"
-                onClick={() => props.navigate(props.links.cancel)}
+                onClick={() => props.history.push(props.links.cancel)}
             >
                 Back
             </button>
@@ -32,3 +28,8 @@ export default function Search(props) {
         </div>
     );
 };
+
+// const delay = time => (new Promise(resolve => setTimeout(resolve, time)));
+// Search.getInitialProps = async () => {
+//     await delay(1000);
+// };
