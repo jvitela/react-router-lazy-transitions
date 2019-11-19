@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/react-router-lazy-transitions/static/css/main.88096db8.chunk.css",
-    "main.js": "/react-router-lazy-transitions/static/js/main.3262d7fb.chunk.js",
-    "main.js.map": "/react-router-lazy-transitions/static/js/main.3262d7fb.chunk.js.map",
-    "runtime-main.js": "/react-router-lazy-transitions/static/js/runtime-main.1543bd38.js",
-    "runtime-main.js.map": "/react-router-lazy-transitions/static/js/runtime-main.1543bd38.js.map",
-    "static/js/2.5d25d751.chunk.js": "/react-router-lazy-transitions/static/js/2.5d25d751.chunk.js",
-    "static/js/2.5d25d751.chunk.js.map": "/react-router-lazy-transitions/static/js/2.5d25d751.chunk.js.map",
-    "static/js/3.de5b886c.chunk.js": "/react-router-lazy-transitions/static/js/3.de5b886c.chunk.js",
-    "static/js/3.de5b886c.chunk.js.map": "/react-router-lazy-transitions/static/js/3.de5b886c.chunk.js.map",
-    "static/js/4.e1548a97.chunk.js": "/react-router-lazy-transitions/static/js/4.e1548a97.chunk.js",
-    "static/js/4.e1548a97.chunk.js.map": "/react-router-lazy-transitions/static/js/4.e1548a97.chunk.js.map",
+    "main.css": "/react-router-lazy-transitions/static/css/main.dedd7341.chunk.css",
+    "main.js": "/react-router-lazy-transitions/static/js/main.6b54b078.chunk.js",
+    "main.js.map": "/react-router-lazy-transitions/static/js/main.6b54b078.chunk.js.map",
+    "runtime-main.js": "/react-router-lazy-transitions/static/js/runtime-main.a26582ec.js",
+    "runtime-main.js.map": "/react-router-lazy-transitions/static/js/runtime-main.a26582ec.js.map",
+    "static/js/2.3cb62f01.chunk.js": "/react-router-lazy-transitions/static/js/2.3cb62f01.chunk.js",
+    "static/js/2.3cb62f01.chunk.js.map": "/react-router-lazy-transitions/static/js/2.3cb62f01.chunk.js.map",
+    "static/js/3.5c19c87d.chunk.js": "/react-router-lazy-transitions/static/js/3.5c19c87d.chunk.js",
+    "static/js/3.5c19c87d.chunk.js.map": "/react-router-lazy-transitions/static/js/3.5c19c87d.chunk.js.map",
+    "static/js/4.8d093203.chunk.js": "/react-router-lazy-transitions/static/js/4.8d093203.chunk.js",
+    "static/js/4.8d093203.chunk.js.map": "/react-router-lazy-transitions/static/js/4.8d093203.chunk.js.map",
     "index.html": "/react-router-lazy-transitions/index.html",
-    "precache-manifest.b315585aa941eb933f361cf5770903ca.js": "/react-router-lazy-transitions/precache-manifest.b315585aa941eb933f361cf5770903ca.js",
+    "precache-manifest.d66858a9435052660ace00355e020654.js": "/react-router-lazy-transitions/precache-manifest.d66858a9435052660ace00355e020654.js",
     "service-worker.js": "/react-router-lazy-transitions/service-worker.js",
-    "static/css/main.88096db8.chunk.css.map": "/react-router-lazy-transitions/static/css/main.88096db8.chunk.css.map",
+    "static/css/main.dedd7341.chunk.css.map": "/react-router-lazy-transitions/static/css/main.dedd7341.chunk.css.map",
     "static/media/logo.svg": "/react-router-lazy-transitions/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.1543bd38.js",
-    "static/js/2.5d25d751.chunk.js",
-    "static/css/main.88096db8.chunk.css",
-    "static/js/main.3262d7fb.chunk.js"
+    "static/js/runtime-main.a26582ec.js",
+    "static/js/2.3cb62f01.chunk.js",
+    "static/css/main.dedd7341.chunk.css",
+    "static/js/main.6b54b078.chunk.js"
   ]
 }
