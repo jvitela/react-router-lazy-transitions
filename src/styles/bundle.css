@@ -10639,11 +10639,6 @@ video {
   z-index: auto;
 }
 
-.transition-group {
-  display: -webkit-box;
-  display: flex;
-}
-
 /* .fade-enter, 
 .fade-enter-active, 
 .fade-enter-done, 
