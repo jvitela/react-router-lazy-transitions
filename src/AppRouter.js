@@ -34,9 +34,9 @@ const AnimationApp = ({ routes, timeout }) => {
     // console.log('AnimationApp::render');
     return (
         <React.Fragment>
-            {/*(!activePage || activePage.routeProps.location.key !== location.key) &&
-                <div>Loading...</div>
-            */}
+            {(!activePage || activePage.routeProps.location.key !== location.key) &&
+                <div className="loading-bar absolute inset-x-0 top-0 h-1"></div>
+            }
             <Switch location={location}>
                 {routes.map(route =>
                     <Route
@@ -53,7 +53,7 @@ const AnimationApp = ({ routes, timeout }) => {
                     />
                 )}
             </Switch>
-            <TransitionGroup className="transition-group">
+            <TransitionGroup className="flex">
                 {/*
                  * CSSTransition element has to be a direct descendant of TransitionGroup
                  *  Otherwise the exit animations won't work

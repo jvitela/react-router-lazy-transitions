@@ -1,0 +1,59 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+/* .fade-enter, 
+.fade-enter-active, 
+.fade-enter-done, 
+.fade-exit, 
+.fade-exit-active, 
+.fade-exit-done, 
+.fade-appear, .fade-appear-active {} */
+
+.container--fade-enter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+.container--fade-enter-active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 500ms ease-in-out;
+    opacity: 1;
+}
+
+/* 
+.container--fade-enter-done {} 
+.container--fade-exit {}
+*/
+
+.container--fade-exit-active {
+    transition: all 500ms ease-in-out;
+    opacity: 0;
+}
+
+.container--fade-exit-done {
+    position: absolute;
+    display: none;
+}
+
+.app-logo {
+    animation: app-logo-spin infinite 20s linear;
+}
+
+.loading-bar {
+    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%) 0% 0% repeat;
+}
+
+@keyframes app-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+}
