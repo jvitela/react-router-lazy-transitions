@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     BrowserRouter as Router,
     Route,
@@ -21,22 +21,17 @@ export const AppRouter = props => {
 
 const AnimationApp = ({ routes, timeout }) => {
     const location = useLocation();
-    const [activePage, setActivePage] = useState(null);
+    const [activePage, setActivePage] = useState({});
+    const { Component, props } = activePage;
+    const key = (props && props.location.key) || 'initial'
 
-    const onReady = async function (route, routeProps) { 
-        if (!activePage || activePage.route !== route) {
-            const { Component, initialProps } = await getComponent(route);
-            setActivePage({ Component, initialProps, route, routeProps });
-        }
-    };
-
-    const key = (activePage && activePage.routeProps.location.key) || 'initial'
-    // console.log('AnimationApp::render');
     return (
         <React.Fragment>
-            {(!activePage || activePage.routeProps.location.key !== location.key) &&
-                <div className="loading-bar absolute inset-x-0 top-0 h-1"></div>
-            }
+            {/*
+              * When a new route is matched, instead of directly rendering a page
+              *  we first fetch the component (if needed) and then
+              *  fetch its initial properties (if needed)
+              */}
             <Switch location={location}>
                 {routes.map(route =>
                     <Route
@@ -47,34 +42,30 @@ const AnimationApp = ({ routes, timeout }) => {
                             <PageLoader
                                 route={route}
                                 routeProps={routeProps}
-                                onReady={onReady}
-                            />
+                                setActivePage={setActivePage}
+                            >
+                                <div className="loading-bar absolute inset-x-0 top-0 h-1"></div>
+                            </PageLoader>
                         )}
                     />
                 )}
             </Switch>
+            {/*
+              * Once the component is fully loaded we display it
+              *  using a CSS transition so that we can animate the change
+              */}
             <TransitionGroup className="flex">
                 {/*
-                 * CSSTransition element has to be a direct descendant of TransitionGroup
-                 *  Otherwise the exit animations won't work
-                 */}
-                {activePage &&
+                  * CSSTransition element has to be a direct descendant of TransitionGroup
+                  *  Otherwise the exit animations won't work
+                  */}
+                {Component &&
                     <CSSTransition
                         key={key}
                         classNames="container--fade"
                         timeout={timeout}
-                        // onEnter={() => console.log('onEnter', key)}
-                        // onEntering={() => console.log('onEntering', key)}
-                        // onEntered={() => console.log('onEntered', key)}
-                        // onExit={() => console.log('onExit', key)}
-                        // onExiting={() => console.log('onExiting', key)}
-                        // onExited={() => console.log('onExited', key)}
                     >
-                        <activePage.Component
-                            {...activePage.routeProps}
-                            {...activePage.initialProps}
-                            links={activePage.route.links}
-                        />
+                        <Component {...props}/>
                     </CSSTransition>
                 }
             </TransitionGroup>
@@ -82,21 +73,22 @@ const AnimationApp = ({ routes, timeout }) => {
     );
 };
 
-const PageLoader = ({ route, routeProps, onReady }) => {
+const PageLoader = ({ children, ...props }) => {
+    const [isReady, setReady] = useState(false);
+
+    // Use a ref on the props to ensure we run the effect
+    //  only once during the life of this component
+    const req = useRef(props).current;
     useEffect(() => {
-        onReady(route, routeProps);
-    }, [route, routeProps, onReady])
+        getComponent(req).then(() => setReady(true));
+    }, [req]);
 
-    // console.log('PageLoader::render');
-    return null;
+    return isReady ? null : children;
 }
-
 
 // const delay = time => (new Promise(resolve => setTimeout(resolve, time)));
 
-async function getComponent(route) {
-    // console.log('getComponent ', route.path);
-
+async function getComponent({ route, routeProps, setActivePage }) {
     if (!route.importComponent && !route.component) {
         throw new Error('A route must include a component or importComponent method');
     }
@@ -117,6 +109,12 @@ async function getComponent(route) {
         initialProps = await Component.getInitialProps();
     }
 
-    Component = React.memo(Component);
-    return { Component, initialProps };
+    setActivePage({
+        Component: React.memo(Component),
+        props: {
+            ...routeProps,
+            ...initialProps,
+            links: route.links
+        }
+    });
 }
