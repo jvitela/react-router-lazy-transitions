@@ -3,18 +3,18 @@ import { Link } from 'react-router-dom'
 import logo from './logo.svg';
 
 export default class Home extends Component {
-   static defaultProps = {
-      history: null,
-      links: { success: '/' }
-   };
+   // static defaultProps = {
+   //    history: null,
+   //    links: { success: '/' }
+   // };
 
-   static async getInitialProps() {
+   static getInitialProps() {
       // console.log('Home::getInitialProps');
       return {};
    }
 
    onNavigate() {
-      this.props.history.push('/search'); // this.props.links.success);
+      this.props.history.push(this.props.links.success);
    }
 
    // componentDidMount() { console.log('Home::componentDidMount'); }

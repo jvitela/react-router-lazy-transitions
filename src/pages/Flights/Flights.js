@@ -3,18 +3,17 @@ import { Link } from 'react-router-dom'
 import { sleep } from 'Utils'
 
 export default function Flights(props) {
-    console.log('Flights::render'); //, props);
-    props = {
-        links: { cancel: '/' },
-        ...props
-    };
+    console.log('Flights::render');
     return (
         <div className="w-full">
             <div className="max-w-3xl mx-auto flex p-6 bg-white rounded-lg shadow mt-4">
                 <div className="pt-1">
-                    <h4 className="text-xl text-gray-900 leading-tight">
+                    <h4 className="text-xl text-gray-900 leading-tight mb-2">
                         Third page
                     </h4>
+                    <p className="text-base text-gray-600 leading-normal mb-2">
+                        Date: {props.date.toString()}
+                    </p>
                     <p className="text-base text-gray-600 leading-normal mb-2">
                         Cupcake ipsum dolor sit amet. Chocolate cake pudding candy marshmallow chocolate gummies macaroon muffin. Wafer cupcake pie. Wafer cookie danish pudding candy canes. Tart cotton candy gingerbread pie. Biscuit macaroon muffin liquorice liquorice.
                     </p>
@@ -35,12 +34,9 @@ export default function Flights(props) {
     );
 };
 
-Flights.defaultProps = {
-};
-
 Flights.getInitialProps = async function () {
-    // console.log('Flights::getInitialProps start');
     await sleep(500);
-    // console.log('Flights::getInitialProps end');
-    return {};
+    return {
+        date: new Date()
+    };
 }

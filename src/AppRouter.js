@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import {
     BrowserRouter as Router,
     Route,
@@ -19,7 +19,7 @@ export const AppRouter = props => {
     );
 }
 
-const AnimationApp = ({ routes, timeout }) => {
+const AnimationApp = ({ routes, timeout, errorPage }) => {
     const location = useLocation();
     const [activePage, setActivePage] = useState({});
     const { Component, props } = activePage;
@@ -43,6 +43,7 @@ const AnimationApp = ({ routes, timeout }) => {
                                 route={route}
                                 routeProps={routeProps}
                                 setActivePage={setActivePage}
+                                errorPage={errorPage}
                             >
                                 <div className="loading-bar absolute inset-x-0 top-0 h-1"></div>
                             </PageLoader>
@@ -79,16 +80,28 @@ const PageLoader = ({ children, ...props }) => {
     // Use a ref on the props to ensure we run the effect
     //  only once during the life of this component
     const req = useRef(props).current;
-    useEffect(() => {
-        getComponent(req).then(() => setReady(true));
+
+    const onError = useCallback(error => {
+        const { setActivePage, errorPage, routeProps, route } = req;
+        setActivePage({
+            Component: errorPage,
+            props: { ...routeProps, error, links: route.links }
+        });
+        setReady(true);
     }, [req]);
+
+    useEffect(() => {
+        initializePage(req)
+            .then(() => setReady(true))
+            .catch(onError);
+    }, [req, onError]);
 
     return isReady ? null : children;
 }
 
 // const delay = time => (new Promise(resolve => setTimeout(resolve, time)));
 
-async function getComponent({ route, routeProps, setActivePage }) {
+async function initializePage({ route, routeProps, setActivePage }) {
     if (!route.importComponent && !route.component) {
         throw new Error('A route must include a component or importComponent method');
     }
