@@ -2,8 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { sleep } from 'Utils'
 
-export default function Flights(props) {
-    console.log('Flights::render');
+export default function ThirdPage(props) {
+    console.log('ThirdPage::render');
     return (
         <div className="w-full">
             <div className="max-w-3xl mx-auto flex p-6 bg-white rounded-lg shadow mt-4">
@@ -25,7 +25,7 @@ export default function Flights(props) {
                             to={props.links.cancel}
                             className="text-blue-500 hover:text-blue-700 underline p-2 mr-6"
                         >
-                            Back
+                            Back Home
                         </Link>
                     </p>
                 </div>
@@ -34,7 +34,7 @@ export default function Flights(props) {
     );
 };
 
-Flights.getInitialProps = async function () {
+ThirdPage.getInitialProps = async function () {
     await sleep(500);
     return {
         date: new Date()

@@ -19,7 +19,7 @@ export const AppRouter = props => {
     );
 }
 
-const AnimationApp = ({ routes, timeout, errorPage }) => {
+const AnimationApp = ({ routes, timeout, errorPage, noneFoundPage }) => {
     const location = useLocation();
     const [activePage, setActivePage] = useState({});
     const { Component, props } = activePage;
@@ -36,7 +36,7 @@ const AnimationApp = ({ routes, timeout, errorPage }) => {
                 {routes.map(route =>
                     <Route
                         exact
-                        key={route.path}
+                        key={route.id || route.path}
                         path={route.path}
                         render={routeProps => (
                             <PageLoader

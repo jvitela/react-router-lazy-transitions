@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import logo from './logo.svg';
 
-export default class Home extends Component {
+export class HomePage extends Component {
    // static defaultProps = {
    //    history: null,
    //    links: { success: '/' }

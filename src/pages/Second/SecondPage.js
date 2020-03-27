@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 
-export default function Search(props) {
+export default function SecondPage(props) {
     const [isLoading, setLoading] = useState(false);
-    console.log("Search::render"); //, { isLoading }, props);
+    console.log("SecondPage::render");
     return (
         <div className="w-full">
             <div className="max-w-3xl mx-auto flex p-6 bg-white rounded-lg shadow mt-4">
@@ -22,23 +22,26 @@ export default function Search(props) {
                                 props.history.push(props.links.cancel);
                             }}
                         >
-                            {isLoading === 'back' ? 'Loading..' : 'Back'}
+                            {isLoading === 'back' ? 'Loading ...' : 'Back'}
                         </button>
                         <Link
                             to={props.links.success}
                             onClick={() => setLoading('next')}
-                            className="text-blue-500 hover:text-blue-700 underline p-2 mr-6"
+                            className="text-blue-500 hover:text-blue-700 hover:bg-gray-100 underline py-2 px-4 w-32 inline-block text-center"
                         >
-                            {isLoading === 'next' ? 'Loading..' : 'Next'}
+                            {isLoading === 'next' ? 'Loading ...' : 'Next'}
                         </Link>
+                        <Link
+                            to={'/broken-link'}
+                            onClick={() => setLoading('broken')}
+                            className="text-red-500 hover:text-red-700 hover:bg-gray-100 underline py-2 px-4 w-32 inline-block text-center"
+                        >
+                            {isLoading === 'broken' ? 'Loading ...' : 'Broken link'}
+                        </Link>
+
                     </p>
                 </div>
             </div>
         </div>
     );
 };
-
-// const delay = time => (new Promise(resolve => setTimeout(resolve, time)));
-// Search.getInitialProps = async () => {
-//     await delay(1000);
-// };

@@ -1,27 +1,35 @@
-import Home from 'pages/Home/Home'
+import { NoneFound } from 'pages/NoneFound/NoneFound';
+import { HomePage } from 'pages/Home/HomePage'
 
 export default function getRoutes() {
     return [
         {
             path: '/',
-            component: Home,
+            component: HomePage,
             links: {
-                success: '/search'
+                success: '/second'
             }
         },
         {
-            path: '/search',
-            importComponent: () => import('pages/Search/Search'),
+            path: '/second',
+            importComponent: () => import('pages/Second/SecondPage'),
             links: {
-                success: '/flights',
+                success: '/third',
                 cancel: '/'
             }
         },
         {
-            path: '/flights',
-            importComponent: () => import('pages/Flights/Flights'),
+            path: '/third',
+            importComponent: () => import('pages/Third/ThirdPage'),
             links: {
                 cancel: '/'
+            }
+        },
+        {
+            id: 'none-found',
+            component: NoneFound,
+            links: {
+                home: '/'
             }
         }
     ];
