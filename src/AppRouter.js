@@ -1,3 +1,4 @@
+import { tryAtMost } from 'Utils'
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import {
     BrowserRouter as Router,
@@ -19,7 +20,7 @@ export const AppRouter = props => {
     );
 }
 
-const AnimationApp = ({ routes, timeout, errorPage, noneFoundPage }) => {
+const AnimationApp = ({ routes, animationTimeout, errorPage, loader }) => {
     const location = useLocation();
     const [activePage, setActivePage] = useState({});
     const { Component, props } = activePage;
@@ -44,9 +45,9 @@ const AnimationApp = ({ routes, timeout, errorPage, noneFoundPage }) => {
                                 routeProps={routeProps}
                                 setActivePage={setActivePage}
                                 errorPage={errorPage}
-                            >
-                                <div className="loading-bar absolute inset-x-0 top-0 h-1"></div>
-                            </PageLoader>
+                                element={loader}
+                                fetchOptions={route.fetchOptions}
+                            />
                         )}
                     />
                 )}
@@ -64,7 +65,7 @@ const AnimationApp = ({ routes, timeout, errorPage, noneFoundPage }) => {
                     <CSSTransition
                         key={key}
                         classNames="container--fade"
-                        timeout={timeout}
+                        timeout={animationTimeout}
                     >
                         <Component {...props}/>
                     </CSSTransition>
@@ -74,7 +75,7 @@ const AnimationApp = ({ routes, timeout, errorPage, noneFoundPage }) => {
     );
 };
 
-const PageLoader = ({ children, ...props }) => {
+const PageLoader = ({ element, ...props }) => {
     const [isReady, setReady] = useState(false);
 
     // Use a ref on the props to ensure we run the effect
@@ -96,12 +97,10 @@ const PageLoader = ({ children, ...props }) => {
             .catch(onError);
     }, [req, onError]);
 
-    return isReady ? null : children;
+    return isReady ? null : element ? React.createElement(element) : null;
 }
 
-// const delay = time => (new Promise(resolve => setTimeout(resolve, time)));
-
-async function initializePage({ route, routeProps, setActivePage }) {
+async function initializePage({ route, routeProps, setActivePage, fetchOptions }) {
     if (!route.importComponent && !route.component) {
         throw new Error('A route must include a component or importComponent method');
     }
@@ -109,8 +108,7 @@ async function initializePage({ route, routeProps, setActivePage }) {
     let Component, initialProps;
 
     if (typeof route.importComponent === 'function') {
-        // await delay(500);
-        const module = await route.importComponent();
+        const module = await tryAtMost(route.importComponent, fetchOptions);
         Component = module.default;
 
     } else {
@@ -118,7 +116,6 @@ async function initializePage({ route, routeProps, setActivePage }) {
     }
 
     if (typeof Component.getInitialProps === 'function') {
-        // await delay(500);
         initialProps = await Component.getInitialProps();
     }
 
