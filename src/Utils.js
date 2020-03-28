@@ -48,3 +48,39 @@ export async function tryAtMost(
     }
   }
 }
+
+export class MockFetchFailure {
+  constructor() {
+    this.retries = 0;
+    this.onFail = this.onFail.bind(this);
+    this.onReady = this.onReady.bind(this);
+    this.canRetry = this.canRetry.bind(this);
+  }
+
+  proxy(result) {
+    this.result = result;
+    return this.fetch.bind(this);
+  }
+
+  async fetch() {
+    this.retries = (this.retries || 0) + 1;
+    if (this.retries > 2) {
+        this.retries = 0;
+        return this.result;
+    }
+    throw new Error(`Error# ${this.retries}`);
+  }
+
+  onFail(opts) { 
+    console.log('failed to fetch the page', opts);
+  } 
+
+  onReady(opts) { 
+    console.log('page succesfully fetched', opts);
+  }
+
+  canRetry(error) {
+    console.log('Error message', error.message);
+    return true;
+  }
+}
