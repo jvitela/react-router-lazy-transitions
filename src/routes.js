@@ -1,5 +1,9 @@
 import { NoneFound } from 'pages/NoneFound/NoneFound';
 import { HomePage } from 'pages/Home/HomePage'
+import { FourthPage } from 'pages/Fourth/FourthPage'
+import { MockFetchFailure } from 'Utils'
+
+const mockedImport = new MockFetchFailure();
 
 export default function getRoutes() {
     return [
@@ -7,22 +11,39 @@ export default function getRoutes() {
             path: '/',
             component: HomePage,
             links: {
-                success: '/second'
+                next: '/second'
             }
         },
         {
             path: '/second',
             importComponent: () => import('pages/Second/SecondPage'),
             links: {
-                success: '/third',
-                cancel: '/'
+                prev: '/',
+                next: '/third'
             }
         },
         {
             path: '/third',
             importComponent: () => import('pages/Third/ThirdPage'),
             links: {
-                cancel: '/'
+                prev: '/second',
+                next: '/fourth'
+            }
+        },
+        {
+            path: '/fourth',
+            importComponent: mockedImport.proxy({ default: FourthPage }),
+            fetchOptions: {
+                maxRetries: 3,
+                retryInterval: 1000,
+                maxRetryInterval: 2000,
+                onFail: mockedImport.onFail,
+                onReady: mockedImport.onReady,
+                canRetry: mockedImport.canRetry
+            },
+            links: {
+                prev: '/third',
+                next: '/'
             }
         },
         {
