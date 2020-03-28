@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { LinkButton } from 'components/LinkButton'
 import { sleep } from 'Utils'
 
 export default function ThirdPage(props) {
@@ -15,18 +15,21 @@ export default function ThirdPage(props) {
                         Date: {props.date.toString()}
                     </p>
                     <p className="text-base text-gray-600 leading-normal mb-2">
+
+                    </p>
+                    <p className="text-base text-gray-600 leading-normal mb-2">
                         Cupcake ipsum dolor sit amet. Chocolate cake pudding candy marshmallow chocolate gummies macaroon muffin. Wafer cupcake pie. Wafer cookie danish pudding candy canes. Tart cotton candy gingerbread pie. Biscuit macaroon muffin liquorice liquorice.
                     </p>
                     <p className="text-base text-gray-600 leading-normal mb-2">
                         Brownie pudding jelly-o cheesecake dessert biscuit soufflé chocolate bar lemon drops. Liquorice pastry jujubes lollipop wafer pudding marzipan. Candy cookie soufflé sweet muffin donut jelly. Lollipop fruitcake pudding toffee topping tootsie roll cake. Ice cream pastry marzipan dessert. Dessert gummi bears cheesecake liquorice soufflé chocolate bar. Lemon drops pastry cotton candy.
                     </p>
                     <p className="text-base text-gray-600 leading-normal mb-2">
-                        <Link
-                            to={props.links.cancel}
-                            className="text-blue-500 hover:text-blue-700 underline p-2 mr-6"
-                        >
-                            Back Home
-                        </Link>
+                        <LinkButton to={props.links.prev}>
+                            Back
+                        </LinkButton>
+                        <LinkButton to={props.links.next}>
+                            Next
+                        </LinkButton>
                     </p>
                 </div>
             </div>

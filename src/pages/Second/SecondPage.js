@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Button } from 'components/Button'
+import { LinkButton } from 'components/LinkButton'
+import { ExternalLink } from 'components/ExternalLink'
 
 export default function SecondPage(props) {
     const [isLoading, setLoading] = useState(false);
@@ -12,33 +14,51 @@ export default function SecondPage(props) {
                         Second page
                     </h4>
                     <p className="text-base text-gray-600 leading-normal mb-2">
-                        Candy dessert croissant jelly-o biscuit pastry sesame snaps gummi bears. Marshmallow wafer powder lollipop. Halvah pudding soufflé cheesecake icing. Donut marshmallow gummies oat cake cheesecake I love. Chocolate cake bonbon icing chocolate bar muffin pudding gingerbread I love sesame snaps. Soufflé jujubes macaroon chocolate bar oat cake icing jelly beans gingerbread.
+                        The  <ExternalLink to="https://reactcommunity.org/react-transition-group/css-transition#CSSTransition-prop-classNames">CSSTransition</ExternalLink> component 
+                        uses classNames property "container--fade"
+                        The animation classNames are applied to the component as it appears, enters, exits or has finished the transition. 
+                        A single className "container--fade" is provided and it will be suffixed for each stage:
                     </p>
+                    <ol className="py-3 pl-6 pr-3 text-base text-blue-700 list-disc list-inside">
+                        <li>container--fade-appear</li>
+                        <li>container--fade-appear-active</li>
+                        <li>container--fade-appear-done</li>
+                        <li>container--fade-enter</li>
+                        <li>container--fade-enter-active</li>
+                        <li>container--fade-enter-done</li>
+                        <li>container--fade-exit</li>
+                        <li>container--fade-exit-active</li>
+                        <li>container--fade-exit-done</li>
+                    </ol>
+
                     <p className="text-base text-gray-600 leading-normal mb-2">
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-32 rounded focus:outline-none focus:shadow-outline"
+                        A component can be specified as loading indicator.
+                        This component will be rendered at each page transition, this is specially
+                        useful when a page needs to fetch async data before rendering.
+                    </p>
+
+                    <p className="text-base text-gray-600 leading-normal mb-2">
+                        <Button
                             onClick={() => {
                                 setLoading('back');
-                                props.history.push(props.links.cancel);
+                                props.history.push(props.links.prev);
                             }}
                         >
                             {isLoading === 'back' ? 'Loading ...' : 'Back'}
-                        </button>
-                        <Link
-                            to={props.links.success}
+                        </Button>
+                        <LinkButton
+                            to={props.links.next}
                             onClick={() => setLoading('next')}
-                            className="text-blue-500 hover:text-blue-700 hover:bg-gray-100 underline py-2 px-4 w-32 inline-block text-center"
                         >
                             {isLoading === 'next' ? 'Loading ...' : 'Next'}
-                        </Link>
-                        <Link
+                        </LinkButton>
+                        <LinkButton
                             to={'/broken-link'}
                             onClick={() => setLoading('broken')}
-                            className="text-red-500 hover:text-red-700 hover:bg-gray-100 underline py-2 px-4 w-32 inline-block text-center"
+                            textColor="text-red-500 hover:text-red-700"
                         >
                             {isLoading === 'broken' ? 'Loading ...' : 'Broken link'}
-                        </Link>
-
+                        </LinkButton>
                     </p>
                 </div>
             </div>
