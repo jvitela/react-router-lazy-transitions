@@ -5,10 +5,16 @@ import './styles/bundle.css';
 import { AppRouter } from './AppRouter';
 import getRoutes from './routes'
 import * as serviceWorker from './serviceWorker';
-import { ErrorPage } from './pages/Error/ErrorPage';
+import { ErrorPage } from 'pages/Error/ErrorPage';
+import { Loader } from 'components/Loader';
 
 ReactDOM.render(
-    <AppRouter timeout={500} routes={getRoutes()} errorPage={ErrorPage}/>,
+    <AppRouter 
+        animationTimeout={500} 
+        routes={getRoutes()} 
+        errorPage={ErrorPage}
+        loader={Loader} 
+    />,
     document.getElementById('root')
 );
 
