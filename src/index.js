@@ -7,14 +7,19 @@ import getRoutes from './routes'
 import * as serviceWorker from './serviceWorker';
 import { ErrorPage } from 'pages/Error/ErrorPage';
 import { Loader } from 'components/Loader';
+import { NotificationsList } from 'components/Notifications'
+import { TOASTS } from 'Constants'
 
 ReactDOM.render(
-    <AppRouter 
-        animationTimeout={500} 
-        routes={getRoutes()} 
-        errorPage={ErrorPage}
-        loader={Loader} 
-    />,
+    <React.Fragment>
+        <AppRouter 
+            animationTimeout={500} 
+            routes={getRoutes()} 
+            errorPage={ErrorPage}
+            loader={Loader} 
+        />
+        <NotificationsList channel={TOASTS}/>
+    </React.Fragment>,
     document.getElementById('root')
 );
 

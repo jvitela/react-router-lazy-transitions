@@ -1,5 +1,7 @@
 import _noop from 'lodash.noop'
 import _constant from 'lodash.constant'
+import { TOASTS } from 'Constants'
+import { addNotice } from 'components/Notifications'
 
 /**
  * Async sleep
@@ -68,19 +70,18 @@ export class MockFetchFailure {
         this.retries = 0;
         return this.result;
     }
-    throw new Error(`Error# ${this.retries}`);
+    throw new Error('Failure');
   }
 
-  onFail(opts) { 
-    console.log('failed to fetch the page', opts);
+  onFail() { 
+    addNotice(TOASTS, `failed to fetch the page #${this.retries}`, 3000)
   } 
 
-  onReady(opts) { 
-    console.log('page succesfully fetched', opts);
+  onReady() { 
+    addNotice(TOASTS, 'page succesfully fetched', 3000);
   }
 
-  canRetry(error) {
-    console.log('Error message', error.message);
+  canRetry() {
     return true;
   }
 }

@@ -1,6 +1,7 @@
 import { NoneFound } from 'pages/NoneFound/NoneFound';
 import { HomePage } from 'pages/Home/HomePage'
 import { FourthPage } from 'pages/Fourth/FourthPage'
+import { AbortPage } from 'pages/Abort/AbortPage'
 import { MockFetchFailure } from 'Utils'
 
 const mockedImport = new MockFetchFailure();
@@ -43,7 +44,15 @@ export default function getRoutes() {
             },
             links: {
                 prev: '/third',
-                next: '/'
+                next: '/',
+                abort: '/abort'
+            }
+        },
+        {
+            path: '/abort',
+            component: AbortPage,
+            links: {
+                prev: '/fourth'
             }
         },
         {

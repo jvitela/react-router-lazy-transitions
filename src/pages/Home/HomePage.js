@@ -5,22 +5,9 @@ import { ExternalLink } from 'components/ExternalLink'
 import logo from './logo.svg';
 
 export class HomePage extends Component {
-   // static defaultProps = {
-   //    history: null,
-   //    links: { success: '/' }
-   // };
-
-   static getInitialProps() {
-      // console.log('Home::getInitialProps');
-      return {};
-   }
-
    onNavigate() {
       this.props.history.push(this.props.links.next);
    }
-
-   // componentDidMount() { console.log('Home::componentDidMount'); }
-   // componentWillUnmount() { console.log('Home::componentWillUnmount'); }
 
    render() {
       console.log('Home::render'); //, this.props);

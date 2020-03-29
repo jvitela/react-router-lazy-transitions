@@ -37,7 +37,7 @@ export default function ThirdPage(props) {
     );
 };
 
-ThirdPage.getInitialProps = async function () {
+ThirdPage.getInitialProps = async function getInitialProps() {
     await sleep(500);
     return {
         date: new Date()

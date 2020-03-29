@@ -80,22 +80,25 @@ const PageLoader = ({ element, ...props }) => {
 
     // Use a ref on the props to ensure we run the effect
     //  only once during the life of this component
-    const req = useRef(props).current;
+    const ref = useRef(props);
 
     const onError = useCallback(error => {
-        const { setActivePage, errorPage, routeProps, route } = req;
+        const { setActivePage, errorPage, routeProps, route } = ref.current;
         setActivePage({
             Component: errorPage,
             props: { ...routeProps, error, links: route.links }
         });
         setReady(true);
-    }, [req]);
+    }, [ref]);
 
     useEffect(() => {
-        initializePage(req)
-            .then(() => setReady(true))
-            .catch(onError);
-    }, [req, onError]);
+        let isMounted = ref.current.isMounted = true;
+        initializePage(ref.current)
+            .then(() => isMounted && setReady(true))
+            .catch(err => isMounted && onError(err));
+        
+        return () => { isMounted = false; }
+    }, [ref, onError]);
 
     return isReady ? null : element ? React.createElement(element) : null;
 }
@@ -116,7 +119,10 @@ async function initializePage({ route, routeProps, setActivePage, fetchOptions }
     }
 
     if (typeof Component.getInitialProps === 'function') {
-        initialProps = await Component.getInitialProps();
+        initialProps = await Component.getInitialProps({ 
+            ...routeProps, 
+            links: route.links 
+        });
     }
 
     setActivePage({
