@@ -59,6 +59,13 @@ export default function SecondPage(props) {
                         >
                             {isLoading === 'broken' ? 'Loading ...' : 'Broken link'}
                         </LinkButton>
+                        <LinkButton 
+                            to={props.links.abort}
+                            onClick={() => setLoading('abort')}
+                            textColor="text-red-500 hover:text-red-700"                            
+                        >
+                            {isLoading === 'abort' ? 'Loading ...' : 'getInitialProps failure'}
+                        </LinkButton>
                     </p>
                 </div>
             </div>

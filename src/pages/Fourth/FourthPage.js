@@ -20,9 +20,6 @@ export function FourthPage(props) {
                         <LinkButton to={props.links.next}>
                             Next
                         </LinkButton>
-                        <LinkButton to={props.links.abort}>
-                            Abort Example
-                        </LinkButton>
                     </p>
                 </div>
             </div>

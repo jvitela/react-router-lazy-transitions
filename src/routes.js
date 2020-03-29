@@ -20,7 +20,8 @@ export default function getRoutes() {
             importComponent: () => import('pages/Second/SecondPage'),
             links: {
                 prev: '/',
-                next: '/third'
+                next: '/third',
+                abort: '/abort'
             }
         },
         {
@@ -45,14 +46,13 @@ export default function getRoutes() {
             links: {
                 prev: '/third',
                 next: '/',
-                abort: '/abort'
             }
         },
         {
             path: '/abort',
             component: AbortPage,
             links: {
-                prev: '/fourth'
+                prev: '/second'
             }
         },
         {
