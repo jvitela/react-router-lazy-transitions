@@ -11,10 +11,10 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 /**
  * Main router component
  */
-export const AppRouter = props => {
+export const AppRouter = ({ basename, ...props }) => {
     // console.log('AppRouter::render');
     return (
-        <Router basename="/react-router-lazy-transitions">
+        <Router basename={basename}>
             <AnimationApp {...props} />
         </Router>
     );
@@ -22,9 +22,24 @@ export const AppRouter = props => {
 
 const AnimationApp = ({ routes, animationTimeout, errorPage, loader }) => {
     const location = useLocation();
-    const [activePage, setActivePage] = useState({});
+    const [activePage, setState] = useState({});
     const { Component, props } = activePage;
     const key = (props && props.location.key) || 'initial'
+
+    // In cases where a route is still loading and the
+    //  user navigates to another route, setActivePage will
+    //  still be called when the previous route finishes loading
+    //  so we need to check if the URL changed in between
+    const locationRef = useRef();
+    locationRef.current = location.key;
+    const setActivePage = props => {
+        // location.key is the value expected by the component that invoked setActivePage.
+        // locationRef.current is the value of the actual route in the address bar. 
+        // If these are different, it means that the route changed while the page was still loading.
+        if (location.key === locationRef.current) {
+            setState(props);
+        }
+    };
 
     return (
         <React.Fragment>
@@ -53,8 +68,8 @@ const AnimationApp = ({ routes, animationTimeout, errorPage, loader }) => {
                 )}
             </Switch>
             {/*
-              * Once the component is fully loaded we display it
-              *  using a CSS transition so that we can animate the change
+              * Once the component is fully loaded we change the state of
+              *  AnimationApp component and display the new page using a CSS transition.
               */}
             <TransitionGroup className="flex">
                 {/*

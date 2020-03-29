@@ -13,6 +13,7 @@ import { TOASTS } from 'Constants'
 ReactDOM.render(
     <React.Fragment>
         <AppRouter 
+            basename="/react-router-lazy-transitions"
             animationTimeout={500} 
             routes={getRoutes()} 
             errorPage={ErrorPage}
