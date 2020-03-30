@@ -8,7 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import { ErrorPage } from "pages/Error/ErrorPage";
 import { Loader } from "components/Loader";
 import { NotificationsList } from "components/Notifications";
-import { TOASTS, PAGE_FADE_ANIMATION } from "Constants";
+import { TOASTS, PAGE_FADE_ANIMATION } from "config";
 
 ReactDOM.render(
   <React.Fragment>

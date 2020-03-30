@@ -1,6 +1,6 @@
 import _noop from "lodash.noop";
 import _constant from "lodash.constant";
-import { TOASTS } from "Constants";
+import { TOASTS } from "config";
 import { addNotice } from "components/Notifications";
 
 /**

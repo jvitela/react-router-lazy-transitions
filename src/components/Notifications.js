@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { NOTIFICATION_FADE_ANIMATION } from "Constants";
+import { NOTIFICATION_FADE_ANIMATION } from "config";
 const Store = {};
 
 function reducer(state, action) {

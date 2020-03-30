@@ -1,6 +1,6 @@
 import React from "react";
 import { sleep } from "Utils";
-import { TOASTS } from "Constants";
+import { TOASTS } from "config";
 import { addNotice } from "components/Notifications";
 
 export function AbortPage() {
