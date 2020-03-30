@@ -14,7 +14,10 @@ ReactDOM.render(
     <React.Fragment>
         <AppRouter 
             basename="/react-router-lazy-transitions"
-            animationTimeout={500} 
+            animation={{
+                timeout:500,
+                classNames:"container--fade"
+            }}
             routes={getRoutes()} 
             errorPage={ErrorPage}
             loader={Loader} 

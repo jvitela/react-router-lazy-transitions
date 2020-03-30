@@ -20,7 +20,7 @@ export const AppRouter = ({ basename, ...props }) => {
     );
 }
 
-const AnimationApp = ({ routes, animationTimeout, errorPage, loader }) => {
+const AnimationApp = ({ routes, animation, errorPage, loader }) => {
     const location = useLocation();
     const [activePage, setState] = useState({});
     const { Component, props } = activePage;
@@ -77,11 +77,7 @@ const AnimationApp = ({ routes, animationTimeout, errorPage, loader }) => {
                   *  Otherwise the exit animations won't work
                   */}
                 {Component &&
-                    <CSSTransition
-                        key={key}
-                        classNames="container--fade"
-                        timeout={animationTimeout}
-                    >
+                    <CSSTransition key={key} {...animation}>
                         <Component {...props}/>
                     </CSSTransition>
                 }
