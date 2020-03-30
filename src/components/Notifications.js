@@ -65,17 +65,20 @@ export const NotificationsList = ({ channel }) => {
 };
 
 export const Notification = ({ channel, item }) => {
-  useEffect(() => {
-    const { id, timeout } = item;
-    if (timeout) {
-      setTimeout(() => removeNotice(channel, id), timeout);
-    }
-  }, [channel, item]);
+  useEffect(
+    function dismiss() {
+      const { id, timeout } = item;
+      if (timeout) {
+        setTimeout(() => removeNotice(channel, id), timeout);
+      }
+    },
+    [channel, item]
+  );
 
   return (
     <div className="transition transform ease-out duration-500 mb-2">
       <div className="inline-block px-2 sm:px-4">
-        <div className="p-2 rounded-lg bg-gray-900 shadow-lg sm:p-3">
+        <div className="p-2 rounded-lg bg-gray-700 shadow-lg sm:p-3">
           <p className="font-medium text-white truncate">{item.content}</p>
         </div>
       </div>

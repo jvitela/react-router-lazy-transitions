@@ -22,7 +22,7 @@ export const PAGE_FADE_ANIMATION = {
 };
 
 export const NOTIFICATION_FADE_ANIMATION = {
-  timeout: 1000,
+  timeout: 500,
   classNames: {},
   onEnter(elem) {
     elem.classList.add("opacity-0", "scale-0");
@@ -32,7 +32,7 @@ export const NOTIFICATION_FADE_ANIMATION = {
     elem.classList.remove("opacity-0", "scale-0");
   },
   onExit(elem) {
-    elem.classList.add("ease-in", "duration-1000");
+    elem.classList.add("ease-in", "duration-500");
   },
   onExiting(elem) {
     elem.classList.add("opacity-0", "scale-0");
