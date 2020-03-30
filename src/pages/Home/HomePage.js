@@ -13,9 +13,9 @@ export class HomePage extends Component {
   render() {
     console.log("Home::render"); //, this.props);
     return (
-      <Page className="flex">
-        <div className="flex-shrink-0">
-          <img src={logo} className="app-logo h-32 w-32" alt="logo" />
+      <Page className="md:flex">
+        <div className="flex md:flex-shrink-0">
+          <img src={logo} className="app-logo flex-1 h-32 w-32" alt="logo" />
         </div>
         <div>
           <h4 className="text-xl text-gray-900 leading-tight">Home</h4>
