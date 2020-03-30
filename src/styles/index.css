@@ -13,17 +13,17 @@
 .fade-appear, .fade-appear-active {} */
 
 .container--fade-enter {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
 }
 .container--fade-enter-active {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: opacity 500ms ease-in-out;
-    opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 500ms ease-in-out;
+  opacity: 1;
 }
 
 /* 
@@ -32,28 +32,28 @@
 */
 
 .container--fade-exit-active {
-    transition: all 500ms ease-in-out;
-    opacity: 0;
+  transition: all 500ms ease-in-out;
+  opacity: 0;
 }
 
 .container--fade-exit-done {
-    position: absolute;
-    display: none;
+  position: absolute;
+  display: none;
 }
 
 .app-logo {
-    animation: app-logo-spin infinite 20s linear;
+  animation: app-logo-spin infinite 20s linear;
 }
 
 .loading-bar {
-    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%) 0% 0% repeat;
+  background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%) 0% 0% repeat;
 }
 
 @keyframes app-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

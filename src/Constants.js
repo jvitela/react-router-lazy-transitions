@@ -1,2 +1,1 @@
-
-export const TOASTS = 'Toasts';
+export const TOASTS = "Toasts";
