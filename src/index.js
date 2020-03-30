@@ -8,16 +8,13 @@ import * as serviceWorker from "./serviceWorker";
 import { ErrorPage } from "pages/Error/ErrorPage";
 import { Loader } from "components/Loader";
 import { NotificationsList } from "components/Notifications";
-import { TOASTS } from "Constants";
+import { TOASTS, PAGE_FADE_ANIMATION } from "Constants";
 
 ReactDOM.render(
   <React.Fragment>
     <AppRouter
       basename="/react-router-lazy-transitions"
-      animation={{
-        timeout: 500,
-        classNames: "container--fade"
-      }}
+      animation={PAGE_FADE_ANIMATION}
       routes={getRoutes()}
       errorPage={ErrorPage}
       loader={Loader}

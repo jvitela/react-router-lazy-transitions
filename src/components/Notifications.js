@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-
+import { NOTIFICATION_FADE_ANIMATION } from "Constants";
 const Store = {};
 
 function reducer(state, action) {
@@ -13,22 +13,6 @@ function reducer(state, action) {
       return state;
   }
 }
-
-const animation = {
-  onEnter(elem) {
-    elem.classList.add("opacity-0", "scale-0");
-  },
-  onEntering(elem) {
-    elem.classList.add("ease-out", "duration-300");
-    elem.classList.remove("opacity-0", "scale-0");
-  },
-  onExit(elem) {
-    elem.classList.add("ease-in", "duration-1000");
-  },
-  onExiting(elem) {
-    elem.classList.add("opacity-0", "scale-0");
-  }
-};
 
 export function addNotice(channel, content, timeout) {
   const id = Date.now();
@@ -72,12 +56,7 @@ export const NotificationsList = ({ channel }) => {
   return (
     <TransitionGroup className="fixed z-100 bottom-0 pb-2 right-0 sm:pb-5 text-right">
       {state.map(item => (
-        <CSSTransition
-          key={item.id}
-          {...animation}
-          unmountOnExit
-          timeout={1000}
-        >
+        <CSSTransition key={item.id} {...NOTIFICATION_FADE_ANIMATION}>
           <Notification channel={channel} item={item} />
         </CSSTransition>
       ))}
