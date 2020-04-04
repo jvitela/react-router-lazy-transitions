@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-export const Page = ({ className, children }) => (
-  <div className="w-full">
-    <div
-      className={`max-w-3xl mx-auto p-6 bg-white rounded-lg shadow md:mt-4 ${className}`}
-    >
-      {children}
+export const Page = ({ className, scrollTop, children }) => {
+  useEffect(() => {
+    if (scrollTop) {
+      window.scrollTo(0, 0);
+    }
+  }, [scrollTop]);
+  return (
+    <div className="w-full">
+      <div
+        className={`max-w-screen-lg mx-auto py-6 px-6 md:px-12 bg-white ${className}`}
+      >
+        {children}
+      </div>
     </div>
-  </div>
-);
+  );
+};

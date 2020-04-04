@@ -1,70 +1,64 @@
-import React, { useState } from "react";
+import React from "react";
 import { Page } from "components/Page";
-import { Button } from "components/Button";
-import { LinkButton } from "components/LinkButton";
+import { PageTitle } from "components/PageTitle";
+import { TextBlock } from "components/TextBlock";
 import { ExternalLink } from "components/ExternalLink";
+import { CodeExample } from "components/CodeExample";
+import { Button } from "components/Button";
 
-export default function SecondPage(props) {
-  const [isLoading, setLoading] = useState(false);
-  console.log("SecondPage::render");
+export default function SecondPage({ history }) {
   return (
     <Page>
-      <h4 className="text-xl text-gray-900 leading-tight">Second page</h4>
-      <p className="text-base text-gray-600 leading-normal mb-2">
-        The{" "}
-        <ExternalLink to="https://reactcommunity.org/react-transition-group/css-transition#CSSTransition-prop-classNames">
-          CSSTransition
+      <PageTitle>Page Navigations</PageTitle>
+      <TextBlock>
+        Page navigations can be done with{" "}
+        <ExternalLink to="https://reacttraining.com/react-router/web/api/Link">
+          {"<Link/>"}
         </ExternalLink>{" "}
-        component uses classNames property "container--fade" The animation
-        classNames are applied to the component as it appears, enters, exits or
-        has finished the transition. A single className "container--fade" is
-        provided and it will be suffixed for each stage:
-      </p>
-      <ol className="py-3 pl-6 pr-3 text-base text-blue-700 list-disc list-inside">
-        <li>container--fade-appear</li>
-        <li>container--fade-appear-active</li>
-        <li>container--fade-appear-done</li>
-        <li>container--fade-enter</li>
-        <li>container--fade-enter-active</li>
-        <li>container--fade-enter-done</li>
-        <li>container--fade-exit</li>
-        <li>container--fade-exit-active</li>
-        <li>container--fade-exit-done</li>
-      </ol>
+        component from React Router.
+      </TextBlock>
 
-      <p className="text-base text-gray-600 leading-normal mb-2">
-        A component can be specified as loading indicator. This component will
-        be rendered at each page transition, this is specially useful when a
-        page needs to fetch async data before rendering.
-      </p>
+      <CodeExample>
+        {`
+import React from "react";
+import { Link } from "react-router-dom";
 
-      <p className="text-base text-gray-600 leading-normal mb-2">
-        <Button
-          onClick={() => {
-            setLoading("back");
-            props.history.push(props.links.prev);
-          }}
-        >
-          {isLoading === "back" ? "Loading ..." : "Back"}
-        </Button>
-        <LinkButton to={props.links.next} onClick={() => setLoading("next")}>
-          {isLoading === "next" ? "Loading ..." : "Next"}
-        </LinkButton>
-        <LinkButton
-          to={"/broken-link"}
-          onClick={() => setLoading("broken")}
-          textColor="text-red-500 hover:text-red-700"
-        >
-          {isLoading === "broken" ? "Loading ..." : "Broken link"}
-        </LinkButton>
-        <LinkButton
-          to={props.links.abort}
-          onClick={() => setLoading("abort")}
-          textColor="text-red-500 hover:text-red-700"
-        >
-          {isLoading === "abort" ? "Loading ..." : "getInitialProps failure"}
-        </LinkButton>
-      </p>
+export const PageExample = ({ links }) => (
+  <p>
+    Go to <Link to={links.about}>About</Link> page.
+  </p>
+);
+`}
+      </CodeExample>
+
+      <TextBlock>
+        It is also posible to navigate programatically using the{" "}
+        <strong>history</strong> property injected to the page
+      </TextBlock>
+
+      <CodeExample>
+        {`
+import React from "react";
+import { Link } from "react-router-dom";
+
+export const PageExample = ({ links, history }) => (
+  <p>
+    Click to go to About page:
+    <button
+      onClick={() => history.push(links.about)}
+    >
+      Navigate
+    </button>
+    <button 
+      onClick={() => history.goBack()}
+    >
+      Back
+    </button>
+  </p>
+);
+`}
+      </CodeExample>
+      <Button onClick={() => history.goBack()}>Back</Button>
     </Page>
   );
 }

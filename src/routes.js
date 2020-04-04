@@ -12,33 +12,27 @@ export default function getRoutes() {
       path: "/",
       component: HomePage,
       links: {
-        next: "/second"
+        basicRouting: "/second",
+        dataFetching: "/third",
+        noneFound: "/foo_bar",
+        retryOnFailure: "/fourth"
       }
     },
     {
       path: "/second",
-      importComponent: () => import("pages/Second/SecondPage"),
-      links: {
-        prev: "/",
-        next: "/third",
-        abort: "/abort"
-      }
+      importComponent: () => import("pages/Second/SecondPage")
     },
     {
       path: "/third",
-      importComponent: () => import("pages/Third/ThirdPage"),
-      links: {
-        prev: "/second",
-        next: "/fourth"
-      }
+      importComponent: () => import("pages/Third/ThirdPage")
     },
     {
       path: "/fourth",
       importComponent: mockedImport.proxy({ default: FourthPage }),
       fetchOptions: {
         maxRetries: 3,
-        retryInterval: 1000,
-        maxRetryInterval: 2000,
+        retryInterval: 2000,
+        maxRetryInterval: 4000,
         onFail: mockedImport.onFail,
         onReady: mockedImport.onReady,
         canRetry: mockedImport.canRetry
@@ -56,7 +50,6 @@ export default function getRoutes() {
       }
     },
     {
-      id: "none-found",
       component: NoneFound,
       links: {
         home: "/"

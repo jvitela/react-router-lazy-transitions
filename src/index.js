@@ -11,7 +11,7 @@ import { NotificationsList } from "components/Notifications";
 import { TOASTS, PAGE_FADE_ANIMATION } from "config";
 
 ReactDOM.render(
-  <React.Fragment>
+  <>
     <AppRouter
       basename="/react-router-lazy-transitions"
       animation={PAGE_FADE_ANIMATION}
@@ -20,7 +20,7 @@ ReactDOM.render(
       loader={Loader}
     />
     <NotificationsList channel={TOASTS} />
-  </React.Fragment>,
+  </>,
   document.getElementById("root")
 );
 

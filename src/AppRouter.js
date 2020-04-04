@@ -42,17 +42,17 @@ const AnimationApp = ({ routes, animation, errorPage, loader }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       {/*
        * When a new route is matched, instead of directly rendering a page
        *  we first fetch the component (if needed) and then
        *  fetch its initial properties (if needed)
        */}
       <Switch location={location}>
-        {routes.map(route => (
+        {routes.map((route, idx) => (
           <Route
             exact
-            key={route.id || route.path}
+            key={route.id || idx}
             path={route.path}
             render={routeProps => (
               <PageLoader
@@ -71,7 +71,7 @@ const AnimationApp = ({ routes, animation, errorPage, loader }) => {
        * Once the component is fully loaded we change the state of
        *  AnimationApp component and display the new page using a CSS transition.
        */}
-      <TransitionGroup className="flex">
+      <TransitionGroup>
         {/*
          * CSSTransition element has to be a direct descendant of TransitionGroup
          *  Otherwise the exit animations won't work
@@ -82,7 +82,7 @@ const AnimationApp = ({ routes, animation, errorPage, loader }) => {
           </CSSTransition>
         )}
       </TransitionGroup>
-    </React.Fragment>
+    </>
   );
 };
 

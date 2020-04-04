@@ -34,6 +34,7 @@
     "autoprefixer": "^9.7.5",
     "gh-pages": "^2.2.0",
     "postcss-cli": "^7.1.0",
+    "prismjs": "^1.19.0",
     "tailwindcss": "^1.2.0"
   }
 }

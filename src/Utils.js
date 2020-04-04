@@ -66,19 +66,19 @@ export class MockFetchFailure {
 
   async fetch() {
     this.retries = (this.retries || 0) + 1;
-    if (this.retries > 2) {
-      this.retries = 0;
+    if (this.retries >= 3) {
       return this.result;
     }
     throw new Error("Failure");
   }
 
   onFail() {
-    addNotice(TOASTS, `failed to fetch the page #${this.retries}`, 3000);
+    addNotice(TOASTS, `${this.retries}: Failure`, this.retries * 1000);
   }
 
   onReady() {
-    addNotice(TOASTS, "page succesfully fetched", 3000);
+    addNotice(TOASTS, `${this.retries}: Success`, 1000);
+    this.retries = 0;
   }
 
   canRetry() {
