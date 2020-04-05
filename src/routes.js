@@ -15,7 +15,8 @@ export default function getRoutes() {
         basicRouting: "/second",
         dataFetching: "/third",
         noneFound: "/foo_bar",
-        retryOnFailure: "/fourth"
+        retryOnFailure: "/fourth",
+        cancelNavigation: "/abort"
       }
     },
     {
@@ -44,10 +45,7 @@ export default function getRoutes() {
     },
     {
       path: "/abort",
-      component: AbortPage,
-      links: {
-        prev: "/second"
-      }
+      component: AbortPage
     },
     {
       component: NoneFound,

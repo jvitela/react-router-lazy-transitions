@@ -7,6 +7,7 @@ import { PageComponentsReference } from "./PageComponentsReference";
 import { DataFetchingReference } from "./DataFetchingReference";
 import { NoneFoundReference } from "./NoneFoundReference";
 import { RetryOnFailureReference } from "./RetryOnFailureReference";
+import { AbortNavigationReference } from "./AbortNavigationReference";
 import logo from "./logo.svg";
 
 export function HomePage({ history, links }) {
@@ -33,6 +34,7 @@ export function HomePage({ history, links }) {
 
       <RetryOnFailureReference linkTo={links.retryOnFailure} />
 
+      <AbortNavigationReference linkTo={links.cancelNavigation} />
       {/*
         - Abort Fetch
         - Fatal Error Page
