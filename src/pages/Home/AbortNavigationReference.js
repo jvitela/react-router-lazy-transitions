@@ -5,31 +5,29 @@ import { CodeExample } from "components/CodeExample";
 
 export const AbortNavigationReference = ({ linkTo }) => (
   <>
-    <h3 className="text-lg text-blue-700 my-3">
-      Aborting navigation on loading
-    </h3>
+    <h3 className="text-lg text-blue-700 my-3">Cancel navigation.</h3>
     <TextBlock>
-      You can redirect from the loading route in{" "}
-      <strong>getInitialProps</strong>. If you want to prevent the route from
-      displaying, throw an exception
+      You can cancel the ongoing navigation from{" "}
+      <strong>getInitialProps</strong> by throwing an object with a{" "}
+      <strong>handle</strong> method, inside this method you can then navigate
+      to any other route using the <strong>history</strong> object.
     </TextBlock>
 
-    <CodeExample title="Class components">
+    <CodeExample title="Example">
       {`
-export function MyPage() {
-  return <div> contents... </div>
-  );
+/* Custom error object */
+function InitializeError(handle) {
+  this.message = "Initialization error";
+  this.handle = handle;
 }
 
-MyPage.getInitialProps = async function getInitialProps({ history }) {
-  try {
-    const data = await someApi.fetchData();
-    return { data };
-  
-  } catch(error) {
-    history.goBack();
-    throw error;
-  }
+export function MyPage() {
+  return null;
+}
+
+MyPage.getInitialProps = async function getInitialProps() {
+  // Go back to the previous page instead of loading the current route
+  throw new InitializeError(({ history }) => history.goBack());
 };
 `}
     </CodeExample>

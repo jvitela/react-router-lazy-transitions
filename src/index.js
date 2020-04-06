@@ -5,7 +5,7 @@ import "./styles/bundle.css";
 import { AppRouter } from "./AppRouter";
 import getRoutes from "./routes";
 import * as serviceWorker from "./serviceWorker";
-import { ErrorPage } from "pages/Error/ErrorPage";
+// import { ErrorPage } from "pages/Error/ErrorPage";
 import { Loader } from "components/Loader";
 import { NotificationsList } from "components/Notifications";
 import { TOASTS, PAGE_FADE_ANIMATION } from "config";
@@ -16,7 +16,7 @@ ReactDOM.render(
       basename="/react-router-lazy-transitions"
       animation={PAGE_FADE_ANIMATION}
       routes={getRoutes()}
-      errorPage={ErrorPage}
+      onError={props => props.history.replace("/error", props.error)}
       loader={Loader}
     />
     <NotificationsList channel={TOASTS} />

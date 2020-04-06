@@ -2,6 +2,8 @@ import { NoneFound } from "pages/NoneFound/NoneFound";
 import { HomePage } from "pages/Home/HomePage";
 import { FourthPage } from "pages/Fourth/FourthPage";
 import { AbortPage } from "pages/Abort/AbortPage";
+import { ErrorPage } from "pages/Error/ErrorPage";
+import { ErrorThrowingPage } from "pages/Error/ErrorThrowingPage";
 import { MockFetchFailure } from "Utils";
 
 const mockedImport = new MockFetchFailure();
@@ -16,7 +18,8 @@ export default function getRoutes() {
         dataFetching: "/third",
         noneFound: "/foo_bar",
         retryOnFailure: "/fourth",
-        cancelNavigation: "/abort"
+        cancelNavigation: "/abort",
+        errorThrowingPage: "/throw-error"
       }
     },
     {
@@ -46,6 +49,14 @@ export default function getRoutes() {
     {
       path: "/abort",
       component: AbortPage
+    },
+    {
+      path: "/throw-error",
+      component: ErrorThrowingPage
+    },
+    {
+      path: "/error",
+      component: ErrorPage
     },
     {
       component: NoneFound,

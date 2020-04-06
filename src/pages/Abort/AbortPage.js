@@ -4,7 +4,6 @@ import { TOASTS } from "config";
 import { addNotice } from "components/Notifications";
 
 export function AbortPage() {
-  console.log("AbortPage");
   return (
     <div>
       <h4>AbortPage page</h4>
@@ -13,9 +12,13 @@ export function AbortPage() {
   );
 }
 
-AbortPage.getInitialProps = async function getInitialProps({ history }) {
+AbortPage.getInitialProps = async function getInitialProps() {
   await sleep(1000);
-  addNotice(TOASTS, "Failed to fetch data", 3000);
-  history.goBack();
-  throw new Error("Failed");
+  addNotice(TOASTS, "Failed to fetch data", 2000);
+  throw new InitializeError(({ history }) => history.goBack());
 };
+
+function InitializeError(handle) {
+  this.message = "Initialization error";
+  this.handle = handle;
+}

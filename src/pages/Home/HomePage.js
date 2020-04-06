@@ -8,6 +8,7 @@ import { DataFetchingReference } from "./DataFetchingReference";
 import { NoneFoundReference } from "./NoneFoundReference";
 import { RetryOnFailureReference } from "./RetryOnFailureReference";
 import { AbortNavigationReference } from "./AbortNavigationReference";
+import { ErrorPageReference } from "./ErrorPageReference";
 import logo from "./logo.svg";
 
 export function HomePage({ history, links }) {
@@ -32,11 +33,13 @@ export function HomePage({ history, links }) {
 
       <NoneFoundReference linkTo={links.noneFound} />
 
+      <AbortNavigationReference linkTo={links.cancelNavigation} />
+
+      <ErrorPageReference linkTo={links.errorThrowingPage} />
+
       <RetryOnFailureReference linkTo={links.retryOnFailure} />
 
-      <AbortNavigationReference linkTo={links.cancelNavigation} />
       {/*
-        - Abort Fetch
         - Fatal Error Page
         - Scroll preserve ? 
       */}

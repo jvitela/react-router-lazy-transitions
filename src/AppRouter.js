@@ -20,7 +20,7 @@ export const AppRouter = ({ basename, ...props }) => {
   );
 };
 
-const AnimationApp = ({ routes, animation, errorPage, loader }) => {
+const AnimationApp = ({ routes, animation, onError, loader }) => {
   const location = useLocation();
   const [activePage, setState] = useState({});
   const { Component, props } = activePage;
@@ -59,7 +59,7 @@ const AnimationApp = ({ routes, animation, errorPage, loader }) => {
                 route={route}
                 routeProps={routeProps}
                 setActivePage={setActivePage}
-                errorPage={errorPage}
+                onError={onError}
                 element={loader}
                 fetchOptions={route.fetchOptions}
               />
@@ -93,14 +93,17 @@ const PageLoader = ({ element, ...props }) => {
   //  only once during the life of this component
   const ref = useRef(props);
 
-  const onError = useCallback(
+  const catchError = useCallback(
     error => {
-      const { setActivePage, errorPage, routeProps, route } = ref.current;
-      setActivePage({
-        Component: errorPage,
-        props: { ...routeProps, error, links: route.links }
-      });
+      const { onError, routeProps } = ref.current;
+      if (typeof error.handle == "function") {
+        return error.handle(routeProps);
+      }
       setReady(true);
+      if (typeof onError === "function") {
+        return onError({ ...routeProps, error });
+      }
+      throw error;
     },
     [ref]
   );
@@ -109,12 +112,12 @@ const PageLoader = ({ element, ...props }) => {
     let isMounted = (ref.current.isMounted = true);
     initializePage(ref.current)
       .then(() => isMounted && setReady(true))
-      .catch(err => isMounted && onError(err));
+      .catch(err => isMounted && catchError(err));
 
     return () => {
       isMounted = false;
     };
-  }, [ref, onError]);
+  }, [ref, catchError]);
 
   return isReady ? null : element ? React.createElement(element) : null;
 };
