@@ -1,5 +1,5 @@
 import { tryAtMost } from "Utils";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -20,7 +20,7 @@ export const AppRouter = ({ basename, ...props }) => {
   );
 };
 
-const AnimationApp = ({ routes, animation, onError, loader }) => {
+const AnimationApp = ({ routes, animation, onError, onLoading }) => {
   const location = useLocation();
   const [activePage, setState] = useState({});
   const { Component, props } = activePage;
@@ -60,7 +60,7 @@ const AnimationApp = ({ routes, animation, onError, loader }) => {
                 routeProps={routeProps}
                 setActivePage={setActivePage}
                 onError={onError}
-                element={loader}
+                onLoading={onLoading}
                 fetchOptions={route.fetchOptions}
               />
             )}
@@ -86,40 +86,49 @@ const AnimationApp = ({ routes, animation, onError, loader }) => {
   );
 };
 
-const PageLoader = ({ element, ...props }) => {
-  const [isReady, setReady] = useState(false);
-
+const PageLoader = props => {
   // Use a ref on the props to ensure we run the effect
   //  only once during the life of this component
   const ref = useRef(props);
 
-  const catchError = useCallback(
-    error => {
-      const { onError, routeProps } = ref.current;
-      if (typeof error.handle == "function") {
-        return error.handle(routeProps);
-      }
-      setReady(true);
-      if (typeof onError === "function") {
-        return onError({ ...routeProps, error });
-      }
-      throw error;
+  useEffect(
+    function loadPage() {
+      let isMounted = true;
+      const { onLoading } = ref.current;
+      const hasLoading = isFunction(onLoading);
+      hasLoading && onLoading(true);
+      initializePage(ref.current)
+        .then(function onSuccess() {
+          if (isMounted && hasLoading) {
+            onLoading(false);
+          }
+        })
+        .catch(function onError(error) {
+          if (!isMounted) {
+            return;
+          }
+          const { routeProps, onLoading, onError } = ref.current;
+          if (isFunction(onLoading)) {
+            onLoading(false);
+          }
+          // Choose an error handling strategy
+          if (isFunction(error.handle)) {
+            error.handle(routeProps);
+          } else if (isFunction(onError)) {
+            onError({ ...routeProps, error });
+          } else {
+            throw error;
+          }
+        });
+
+      return () => {
+        isMounted = false;
+      };
     },
     [ref]
   );
 
-  useEffect(() => {
-    let isMounted = (ref.current.isMounted = true);
-    initializePage(ref.current)
-      .then(() => isMounted && setReady(true))
-      .catch(err => isMounted && catchError(err));
-
-    return () => {
-      isMounted = false;
-    };
-  }, [ref, catchError]);
-
-  return isReady ? null : element ? React.createElement(element) : null;
+  return null;
 };
 
 async function initializePage({
@@ -158,4 +167,8 @@ async function initializePage({
       links: route.links
     }
   });
+}
+
+function isFunction(fn) {
+  return typeof fn === "function";
 }

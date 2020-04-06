@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./styles/bundle.css";
 
@@ -10,19 +10,24 @@ import { Loader } from "components/Loader";
 import { NotificationsList } from "components/Notifications";
 import { TOASTS, PAGE_FADE_ANIMATION } from "config";
 
-ReactDOM.render(
-  <>
-    <AppRouter
-      basename="/react-router-lazy-transitions"
-      animation={PAGE_FADE_ANIMATION}
-      routes={getRoutes()}
-      onError={props => props.history.replace("/error", props.error)}
-      loader={Loader}
-    />
-    <NotificationsList channel={TOASTS} />
-  </>,
-  document.getElementById("root")
-);
+const MyApp = () => {
+  const [isLoading, setLoading] = useState(false);
+  return (
+    <>
+      <AppRouter
+        basename="/react-router-lazy-transitions"
+        animation={PAGE_FADE_ANIMATION}
+        routes={getRoutes()}
+        onError={props => props.history.replace("/error", props.error)}
+        onLoading={setLoading}
+      />
+      {isLoading && <Loader />}
+      <NotificationsList channel={TOASTS} />
+    </>
+  );
+};
+
+ReactDOM.render(<MyApp />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
