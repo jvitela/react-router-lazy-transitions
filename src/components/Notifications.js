@@ -8,7 +8,7 @@ function reducer(state, action) {
     case "ADD":
       return state.concat(action.payload);
     case "REMOVE":
-      return state.filter(item => item.id !== action.payload);
+      return state.filter((item) => item.id !== action.payload);
     default:
       return state;
   }
@@ -18,7 +18,7 @@ export function addNotice(channel, content, timeout) {
   const id = Date.now();
   Store[channel].dispatch({
     type: "ADD",
-    payload: { id, content, timeout }
+    payload: { id, content, timeout },
   });
   return id;
 }
@@ -26,7 +26,7 @@ export function addNotice(channel, content, timeout) {
 export function removeNotice(channel, id) {
   Store[channel].dispatch({
     type: "REMOVE",
-    payload: id
+    payload: id,
   });
 }
 
@@ -44,7 +44,7 @@ export const NotificationsList = ({ channel }) => {
     function initChannel() {
       Store[channel] = {
         getState: () => state,
-        dispatch: dispatch
+        dispatch: dispatch,
       };
       return function dispose() {
         Store[channel] = null;
@@ -55,7 +55,7 @@ export const NotificationsList = ({ channel }) => {
 
   return (
     <TransitionGroup className="fixed z-100 bottom-0 pb-2 right-0 sm:pb-5 text-right">
-      {state.map(item => (
+      {state.map((item) => (
         <CSSTransition key={item.id} {...NOTIFICATION_FADE_ANIMATION}>
           <Notification channel={channel} item={item} />
         </CSSTransition>
@@ -64,7 +64,7 @@ export const NotificationsList = ({ channel }) => {
   );
 };
 
-export const Notification = ({ channel, item }) => {
+const Notification = ({ channel, item }) => {
   useEffect(
     function dismiss() {
       const { id, timeout } = item;

@@ -4,14 +4,11 @@ export const PAGE_FADE_ANIMATION = {
   timeout: 500,
   classNames: {},
   onEnter(elem) {
-    elem.classList.add("opacity-0", "absolute", "left-0", "top-0");
+    elem.classList.add("opacity-0");
   },
   onEntering(elem) {
     elem.classList.add("transition", "ease-in-out", "duration-500");
     elem.classList.remove("opacity-0");
-  },
-  onEntered(elem) {
-    elem.classList.remove("absolute", "left-0", "top-0");
   },
   onExit(elem) {
     elem.classList.add("opacity-0");
