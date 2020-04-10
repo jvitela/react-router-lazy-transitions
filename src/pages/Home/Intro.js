@@ -17,5 +17,14 @@ export const Intro = () => (
       .<br /> Styling and animations are implemented with{" "}
       <ExternalLink to="https://tailwindcss.com/">Tailwind CSS</ExternalLink>.
     </TextBlock>
+
+    <h3 className="text-lg text-blue-700 my-3">Scroll Restoration</h3>
+    <TextBlock>
+      The animated transition between the pages breaks the browser's
+      out-of-the-box scroll restoration.
+      <br />
+      The <strong>Page</strong> component used in this demo includes custom
+      logic to persist and restore the scroll position.
+    </TextBlock>
   </>
 );

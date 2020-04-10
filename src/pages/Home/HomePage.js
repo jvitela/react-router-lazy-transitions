@@ -18,7 +18,7 @@ export function HomePage({ history, links }) {
         <img src={logo} className="app-logo flex-1 h-32 w-32" alt="logo" />
       </div>
 
-      <PageTitle>Home</PageTitle>
+      <PageTitle>Enhanced navigation</PageTitle>
 
       <Intro />
 
