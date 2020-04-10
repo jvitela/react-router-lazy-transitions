@@ -16,7 +16,7 @@ export const Page = ({ className, scrollTop, children }) => {
         elem.scrollTop = PageCache[pathname];
       }
     },
-    [pathname, elemRef]
+    [scrollTop, pathname, elemRef]
   );
 
   const saveScrollPosition = () => {
