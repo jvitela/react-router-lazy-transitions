@@ -21,7 +21,11 @@ export const Intro = () => (
     <h3 className="text-lg text-blue-700 my-3">Scroll Restoration</h3>
     <TextBlock>
       The animated transition between the pages breaks the browser's
-      out-of-the-box scroll restoration.
+      out-of-the-box{" "}
+      <ExternalLink to="https://reacttraining.com/react-router/web/guides/scroll-restoration">
+        scroll restoration
+      </ExternalLink>
+      .
       <br />
       The <strong>Page</strong> component used in this demo includes custom
       logic to persist and restore the scroll position.
