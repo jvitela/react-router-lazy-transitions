@@ -1,12 +1,13 @@
-import { tryAtMost } from "Utils";
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-  useLocation
+  useLocation,
 } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { tryAtMost } from "Utils";
 
 /**
  * Main router component
@@ -18,6 +19,14 @@ export const AppRouter = ({ basename, ...props }) => {
       <AnimationApp {...props} />
     </Router>
   );
+};
+
+AppRouter.propTypes = {
+  basename: PropTypes.string,
+  routes: PropTypes.array.isRequired,
+  animation: PropTypes.object.isRequired,
+  onError: PropTypes.func,
+  onLoading: PropTypes.func,
 };
 
 const AnimationApp = ({ routes, animation, onError, onLoading }) => {
@@ -32,7 +41,7 @@ const AnimationApp = ({ routes, animation, onError, onLoading }) => {
   //  so we need to check if the URL changed in between
   const locationRef = useRef();
   locationRef.current = location.key;
-  const setActivePage = props => {
+  const setActivePage = (props) => {
     // location.key is the value expected by the component that invoked setActivePage.
     // locationRef.current is the value of the actual route in the address bar.
     // If these are different, it means that the route changed while the page was still loading.
@@ -54,7 +63,7 @@ const AnimationApp = ({ routes, animation, onError, onLoading }) => {
             exact
             key={route.id || idx}
             path={route.path}
-            render={routeProps => (
+            render={(routeProps) => (
               <PageLoader
                 route={route}
                 routeProps={routeProps}
@@ -86,7 +95,7 @@ const AnimationApp = ({ routes, animation, onError, onLoading }) => {
   );
 };
 
-const PageLoader = props => {
+const PageLoader = (props) => {
   // Use a ref on the props to ensure we run the effect
   //  only once during the life of this component
   const ref = useRef(props);
@@ -135,7 +144,7 @@ async function initializePage({
   route,
   routeProps,
   setActivePage,
-  fetchOptions
+  fetchOptions,
 }) {
   if (!route.importComponent && !route.component) {
     throw new Error(
@@ -155,7 +164,7 @@ async function initializePage({
   if (typeof Component.getInitialProps === "function") {
     initialProps = await Component.getInitialProps({
       ...routeProps,
-      links: route.links
+      links: route.links,
     });
   }
 
@@ -164,8 +173,8 @@ async function initializePage({
     props: {
       ...routeProps,
       ...initialProps,
-      links: route.links
-    }
+      links: route.links,
+    },
   });
 }
 

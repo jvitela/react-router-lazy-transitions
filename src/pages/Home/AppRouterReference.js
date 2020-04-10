@@ -3,6 +3,7 @@ import { Button } from "components/Button";
 import { LinkButton } from "components/LinkButton";
 import { ExternalLink } from "components/ExternalLink";
 import { TextBlock } from "components/TextBlock";
+import { CodeExample } from "components/CodeExample";
 
 export const AppRouterReference = ({ linkTo, onNavigateClick }) => (
   <>
@@ -49,26 +50,56 @@ export const AppRouterReference = ({ linkTo, onNavigateClick }) => (
             </td>
           </tr>
           <tr className="bg-gray-100">
-            <td className="border px-4 py-2 text-gray-800">errorPage</td>
-            <td className="border px-4 py-2 text-blue-500">React component</td>
+            <td className="border px-4 py-2 text-gray-800">onError</td>
+            <td className="border px-4 py-2 text-blue-500">function</td>
             <td className="border px-4 py-2">
-              A component to display in case of an error occurs when loading a
-              page.
+              Callback in case an error is thrown at{" "}
+              <strong>getInitialProps</strong>.
+              <br />
+              The function will be called with{" "}
+              <ExternalLink to="https://reacttraining.com/react-router/web/api/Route/route-props">
+                route-props
+              </ExternalLink>{" "}
+              and the error object thrown.
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-gray-800">loader</td>
-            <td className="border px-4 py-2 text-blue-500">
-              React component (optional)
-            </td>
+            <td className="border px-4 py-2 text-gray-800">onLoading</td>
+            <td className="border px-4 py-2 text-blue-500">function</td>
             <td className="border px-4 py-2">
-              A component to display as loading indicator whenever a new route
-              is being loaded.
+              A callback invoked when a page transition starts and when it ends.
+              <br />
+              It receives a boolean parameter indicating if there is an ongoing
+              transition.
+              <br />
+              You can use this function to display a loading indicator.
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <CodeExample title="Example">
+      {`
+const MyApp = () => {
+  const [isLoading, setLoading] = useState(false);
+  return (
+    <>
+      <AppRouter
+        basename="/my-app"
+        routes={routes}
+        animation={{
+          timeout={200} 
+          classNames="my-page"
+        }}
+        onError={props => props.history.replace("/error", props.error)}
+        onLoading={setLoading}
+      />
+      {isLoading && <LoadingIndicator />}
+    </>
+  );
+};
+      `}
+    </CodeExample>
     <h4 className="text-blue-600 my-2">Example: Basic Routing.</h4>
     <TextBlock>
       Navigate to next page using a link or programatically. In this example the
