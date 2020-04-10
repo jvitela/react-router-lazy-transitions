@@ -18,7 +18,7 @@ export const PAGE_FADE_ANIMATION = {
   },
   onExited(elem) {
     elem.classList.add("hidden");
-  }
+  },
 };
 
 export const NOTIFICATION_FADE_ANIMATION = {
@@ -36,5 +36,5 @@ export const NOTIFICATION_FADE_ANIMATION = {
   },
   onExiting(elem) {
     elem.classList.add("opacity-0", "scale-0");
-  }
+  },
 };
