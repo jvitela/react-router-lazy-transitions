@@ -6,7 +6,7 @@ import { Button } from "components/Button";
 import { CodeExample } from "components/CodeExample";
 
 export const FourthPage = ({ history }) => (
-  <Page>
+  <Page scrollTop>
     <PageTitle>Fetch Retry Example</PageTitle>
 
     <TextBlock>

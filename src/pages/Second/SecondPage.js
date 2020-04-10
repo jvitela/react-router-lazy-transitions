@@ -8,7 +8,7 @@ import { Button } from "components/Button";
 
 export default function SecondPage({ history }) {
   return (
-    <Page>
+    <Page scrollTop>
       <PageTitle>Page Navigations</PageTitle>
       <TextBlock>
         Page navigations can be done with{" "}

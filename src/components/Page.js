@@ -3,14 +3,16 @@ import { useLocation } from "react-router-dom";
 
 const PageCache = {};
 
-export const Page = ({ className, children }) => {
+export const Page = ({ className, scrollTop, children }) => {
   const pathname = useInitialPathname();
   const elemRef = useRef();
 
   useEffect(
     function restoreScrollPosition() {
       const elem = elemRef.current;
-      if (pathname in PageCache) {
+      if (scrollTop) {
+        elem.scrollTop = 0;
+      } else if (pathname in PageCache) {
         elem.scrollTop = PageCache[pathname];
       }
     },
