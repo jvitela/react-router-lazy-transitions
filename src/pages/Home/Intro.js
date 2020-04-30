@@ -5,9 +5,19 @@ import { TextBlock } from "components/TextBlock";
 export const Intro = () => (
   <>
     <TextBlock>
-      This is a demo of React-Router v5 with animated page transitions and code
-      splitting with hability to retry in case of network failures. All the
-      logic is abstracted in a component called <strong>AppRouter</strong>.
+      This is a demo implementing{" "}
+      <ExternalLink to="https://reacttraining.com/react-router/web/guides/quick-start">
+        React-Router v5
+      </ExternalLink>{" "}
+      with some extra cool features:
+      <ul class="list-decimal pl-12 my-4">
+        <li>An intuitive page-based routing configuration</li>
+        <li>Animated transitions</li>
+        <li>Scroll restoration</li>
+        <li>Fetching data before navigation</li>
+        <li>Code splitting for faster page loads</li>
+        <li>Retry fetch upon failure</li>
+      </ul>
     </TextBlock>
     <TextBlock>
       Animation transitions between the pages is done with{" "}
@@ -18,7 +28,7 @@ export const Intro = () => (
       <ExternalLink to="https://tailwindcss.com/">Tailwind CSS</ExternalLink>.
     </TextBlock>
 
-    <h3 className="text-lg text-blue-700 my-3">Scroll Restoration</h3>
+    <h2 className="text-lg text-blue-700 my-3">Scroll Restoration</h2>
     <TextBlock>
       The animated transition between the pages breaks the browser's
       out-of-the-box{" "}

@@ -1,5 +1,7 @@
 import React from "react";
 
 export const PageTitle = ({ children }) => (
-  <h2 className="text-xl text-blue-700 my-2">{children}</h2>
+  <h1 className="text-4xl font-display leading-tight text-blue-800 my-4">
+    {children}
+  </h1>
 );
