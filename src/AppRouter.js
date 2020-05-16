@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Route,
   Switch,
   useLocation,
@@ -12,24 +12,29 @@ import { tryAtMost } from "Utils";
 /**
  * Main router component
  */
-export const AppRouter = ({ basename, ...props }) => {
-  // console.log('AppRouter::render');
-  return (
-    <Router basename={basename}>
-      <AnimationApp {...props} />
-    </Router>
-  );
-};
+// export const AppRouter = ({ basename, ...props }) => {
+//   // console.log('AppRouter::render');
+//   return (
+//     <Router basename={basename}>
+//       <AnimationApp {...props} />
+//     </Router>
+//   );
+// };
 
-AppRouter.propTypes = {
-  basename: PropTypes.string,
-  routes: PropTypes.array.isRequired,
-  animation: PropTypes.object.isRequired,
-  onError: PropTypes.func,
-  onLoading: PropTypes.func,
-};
+// AppRouter.propTypes = {
+//   basename: PropTypes.string,
+//   routes: PropTypes.array.isRequired,
+//   animation: PropTypes.object.isRequired,
+//   onError: PropTypes.func,
+//   onLoading: PropTypes.func,
+// };
 
-const AnimationApp = ({ routes, animation, onError, onLoading }) => {
+export const AnimationApp = ({
+  routes,
+  animation,
+  onError,
+  onLoading,
+} = {}) => {
   const location = useLocation();
   const [activePage, setState] = useState({});
   const { Component, props } = activePage;
@@ -93,6 +98,13 @@ const AnimationApp = ({ routes, animation, onError, onLoading }) => {
       </TransitionGroup>
     </>
   );
+};
+
+AnimationApp.propTypes = {
+  routes: PropTypes.array.isRequired,
+  animation: PropTypes.object.isRequired,
+  onError: PropTypes.func,
+  onLoading: PropTypes.func,
 };
 
 const PageLoader = (props) => {

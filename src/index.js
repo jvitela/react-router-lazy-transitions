@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./styles/bundle.css";
 
-import { AppRouter } from "./AppRouter";
+import { BrowserRouter as Router } from "react-router-dom";
+import { AnimationApp } from "./AppRouter";
 import getRoutes from "./routes";
 import * as serviceWorker from "./serviceWorker";
 // import { ErrorPage } from "pages/Error/ErrorPage";
@@ -14,13 +15,14 @@ const MyApp = () => {
   const [isLoading, setLoading] = useState(false);
   return (
     <>
-      <AppRouter
-        basename="/react-router-lazy-transitions"
-        animation={PAGE_FADE_ANIMATION}
-        routes={getRoutes()}
-        onError={props => props.history.replace("/error", props.error)}
-        onLoading={setLoading}
-      />
+      <Router basename="/react-router-lazy-transitions">
+        <AnimationApp
+          animation={PAGE_FADE_ANIMATION}
+          routes={getRoutes()}
+          onError={(props) => props.history.replace("/error", props.error)}
+          onLoading={setLoading}
+        />
+      </Router>
       {isLoading && <Loader />}
       <NotificationsList channel={TOASTS} />
     </>
