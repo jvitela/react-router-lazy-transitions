@@ -58,9 +58,11 @@ export const AnimationApp = ({
   return (
     <>
       {/*
-       * When a new route is matched, instead of directly rendering a page
-       *  we first fetch the component (if needed) and then
-       *  fetch its initial properties (if needed)
+       * When a new route is matched, instead of rendering the page component
+       *  we will render a PageLoader, this component will be in charge of
+       *    1. Fetch the page component if lazy loading is configured (optional)
+       *    2. Fetch the page component initial properties (optional)
+       * Once everything is ready, the page component will be rendered using the transition group below
        */}
       <Switch location={location}>
         {routes.map((route, idx) => (
@@ -84,6 +86,7 @@ export const AnimationApp = ({
       {/*
        * Once the component is fully loaded we change the state of
        *  AnimationApp component and display the new page using a CSS transition.
+       *  The transition group will also take care of removing the previous page component.
        */}
       <TransitionGroup>
         {/*
@@ -107,6 +110,11 @@ AnimationApp.propTypes = {
   onLoading: PropTypes.func,
 };
 
+/**
+ * This component will always render as null.
+ *  Its only purpose is to use the l
+ * @param {*} props
+ */
 const PageLoader = (props) => {
   // Use a ref on the props to ensure we run the effect
   //  only once during the life of this component
@@ -114,23 +122,20 @@ const PageLoader = (props) => {
 
   useEffect(
     function loadPage() {
+      // Use a variable to abort in case the component unmounts before the data is fetched
       let isMounted = true;
-      const { onLoading } = ref.current;
+      // const { onLoading } = ref.current;
+      const { routeProps, onLoading, onError } = ref.current;
       const hasLoading = isFunction(onLoading);
-      hasLoading && onLoading(true);
+      // invoke the onLoading callback
+      if (hasLoading) {
+        onLoading(true);
+      }
       initializePage(ref.current)
-        .then(function onSuccess() {
-          if (isMounted && hasLoading) {
-            onLoading(false);
-          }
-        })
-        .catch(function onError(error) {
+        .catch((error) => {
+          // Abort if the component is no longer mounted
           if (!isMounted) {
             return;
-          }
-          const { routeProps, onLoading, onError } = ref.current;
-          if (isFunction(onLoading)) {
-            onLoading(false);
           }
           // Choose an error handling strategy
           if (isFunction(error.handle)) {
@@ -139,6 +144,11 @@ const PageLoader = (props) => {
             onError({ ...routeProps, error });
           } else {
             throw error;
+          }
+        })
+        .finally(() => {
+          if (isMounted && hasLoading) {
+            onLoading(false);
           }
         });
 
@@ -152,6 +162,10 @@ const PageLoader = (props) => {
   return null;
 };
 
+/**
+ * Fetch the component
+ * Fetch the initial data
+ */
 async function initializePage({
   route,
   routeProps,
@@ -166,14 +180,14 @@ async function initializePage({
 
   let Component, initialProps;
 
-  if (typeof route.importComponent === "function") {
+  if (isFunction(route.importComponent)) {
     const module = await tryAtMost(route.importComponent, fetchOptions);
     Component = module.default;
   } else {
     Component = route.component;
   }
 
-  if (typeof Component.getInitialProps === "function") {
+  if (isFunction(Component.getInitialProps)) {
     initialProps = await Component.getInitialProps({
       ...routeProps,
       links: route.links,
