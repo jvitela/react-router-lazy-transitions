@@ -4,13 +4,13 @@ import { TextBlock } from "components/TextBlock";
 
 export const Intro = () => (
   <>
-    <TextBlock>
+    <TextBlock element="div">
       This is a demo implementing{" "}
       <ExternalLink to="https://reacttraining.com/react-router/web/guides/quick-start">
         React-Router v5
       </ExternalLink>{" "}
       with some extra cool features:
-      <ul class="list-decimal pl-12 my-4">
+      <ul className="list-decimal pl-12 my-4">
         <li>An intuitive page-based routing configuration</li>
         <li>Animated transitions</li>
         <li>Scroll restoration</li>
