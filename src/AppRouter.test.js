@@ -66,7 +66,7 @@ test("full app rendering/navigating", async () => {
   expect(getByTestId("about-title")).toBeInTheDocument();
 });
 
-test("landing on a bad page shows 404 page", () => {
+test("landing on a bad page shows 404 page", async () => {
   const history = createMemoryHistory();
   history.push("/some/bad/route");
   const routes = [{ path: "/", component: Home }, { component: NotFound }];
@@ -75,7 +75,9 @@ test("landing on a bad page shows 404 page", () => {
       <AnimationApp animation={{ timeout: 100 }} routes={routes} />
     </Router>
   );
-  expect(getByTestId("404-title")).toBeInTheDocument();
+  await waitFor(() => {
+    expect(getByTestId("404-title")).toBeInTheDocument();
+  });
 });
 
 test("calls getInitialProps before rendering the route", async () => {
@@ -94,10 +96,13 @@ test("calls getInitialProps before rendering the route", async () => {
     </Router>
   );
 
-  // Check the method was called before showing the component
-  expect(TestPage.getInitialProps).toHaveBeenCalled();
+  // Check page is not rendered immediately
   expect(screen.queryByTestId("page-title")).not.toBeInTheDocument();
-  // Check that the component renders
+  // wait for getInitialProps to be called
+  await waitFor(() => {
+    expect(TestPage.getInitialProps).toHaveBeenCalled();
+  });
+  // wait for the component to render
   await waitFor(() => {
     expect(screen.getByTestId("page-title")).toBeInTheDocument();
   });

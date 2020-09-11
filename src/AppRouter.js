@@ -1,3 +1,5 @@
+import _noop from "lodash.noop";
+import _isFunction from "lodash.isfunction";
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import {
@@ -8,26 +10,6 @@ import {
 } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { tryAtMost } from "Utils";
-
-/**
- * Main router component
- */
-// export const AppRouter = ({ basename, ...props }) => {
-//   // console.log('AppRouter::render');
-//   return (
-//     <Router basename={basename}>
-//       <AnimationApp {...props} />
-//     </Router>
-//   );
-// };
-
-// AppRouter.propTypes = {
-//   basename: PropTypes.string,
-//   routes: PropTypes.array.isRequired,
-//   animation: PropTypes.object.isRequired,
-//   onError: PropTypes.func,
-//   onLoading: PropTypes.func,
-// };
 
 export const AnimationApp = ({
   routes,
@@ -111,99 +93,112 @@ AnimationApp.propTypes = {
 };
 
 /**
- * This component will always render as null.
- *  Its only purpose is to use the l
- * @param {*} props
+ * Component used to prepare the page
  */
 const PageLoader = (props) => {
-  // Use a ref on the props to ensure we run the effect
+  // Use a ref on a copy of the props (which is frozen) to ensure we run the effect
   //  only once during the life of this component
-  const ref = useRef(props);
+  const ref = useRef({ ...props });
 
-  useEffect(
-    function loadPage() {
-      // Use a variable to abort in case the component unmounts before the data is fetched
-      let isMounted = true;
-      // const { onLoading } = ref.current;
-      const { routeProps, onLoading, onError } = ref.current;
-      const hasLoading = isFunction(onLoading);
-      // invoke the onLoading callback
-      if (hasLoading) {
-        onLoading(true);
-      }
-      initializePage(ref.current)
-        .catch((error) => {
-          // Abort if the component is no longer mounted
-          if (!isMounted) {
-            return;
-          }
-          // Choose an error handling strategy
-          if (isFunction(error.handle)) {
-            error.handle(routeProps);
-          } else if (isFunction(onError)) {
-            onError({ ...routeProps, error });
-          } else {
-            throw error;
-          }
-        })
-        .finally(() => {
-          if (isMounted && hasLoading) {
-            onLoading(false);
-          }
-        });
-
-      return () => {
-        isMounted = false;
-      };
-    },
-    [ref]
-  );
+  useEffect(() => {
+    let isMounted = true;
+    // Use a variable to abort in case the component unmounts before the data is fetched
+    ref.current.isMounted = () => isMounted;
+    loadPage(ref.current);
+    return () => {
+      isMounted = false;
+    };
+  }, [ref]);
 
   return null;
 };
 
 /**
- * Fetch the component
- * Fetch the initial data
+ * Loads the page component and fetchs any necessary data
  */
-async function initializePage({
+async function loadPage({
   route,
-  routeProps,
-  setActivePage,
   fetchOptions,
+  routeProps,
+  isMounted,
+  setActivePage,
+  onLoading = _noop,
+  onError = _noop,
 }) {
+  // Throws an error in case the component was unmounted
+  const assertIsMounted = () => {
+    if (!isMounted()) {
+      throw new Error("COMPONENT_UNMOUNTED");
+    }
+  };
+
+  // invoke the onLoading callback
+  onLoading(true);
+
+  try {
+    let initialProps = {};
+    const pageProps = { ...routeProps, links: route.links };
+    const component = await resolveComponent(route, fetchOptions);
+    assertIsMounted();
+
+    if (_isFunction(component.getInitialProps)) {
+      initialProps = await component.getInitialProps(pageProps);
+      assertIsMounted();
+    }
+
+    setActivePage({
+      Component: React.memo(component),
+      props: { ...pageProps, ...initialProps },
+    });
+  } catch (error) {
+    if (isMounted()) {
+      loadPageError(error, onError, routeProps);
+    }
+  } finally {
+    if (isMounted()) {
+      onLoading(false);
+    }
+  }
+}
+
+/**
+ * Choose an error handling strategy
+ * @param object error The thrown error
+ * @param function onError Error callback
+ * @param object routeProps
+ */
+function loadPageError(error, onError, routeProps) {
+  if (_isFunction(error.handle)) {
+    // If the thrown exception has its own error handler
+    error.handle(routeProps);
+  } else if (_isFunction(onError)) {
+    // Call the default error handler
+    onError({ ...routeProps, error });
+  } else {
+    throw error;
+  }
+}
+
+/**
+ *
+ * @param object route
+ * @param object fetchOptions
+ */
+async function resolveComponent(route, fetchOptions) {
   if (!route.importComponent && !route.component) {
     throw new Error(
       "A route must include a component or importComponent method"
     );
   }
 
-  let Component, initialProps;
+  // By default asume the component is statically loaded
+  let component = route.component;
 
-  if (isFunction(route.importComponent)) {
+  // Check if the component should be Lazy loaded
+  if (_isFunction(route.importComponent)) {
     const module = await tryAtMost(route.importComponent, fetchOptions);
-    Component = module.default;
-  } else {
-    Component = route.component;
+    component = module.default;
   }
 
-  if (isFunction(Component.getInitialProps)) {
-    initialProps = await Component.getInitialProps({
-      ...routeProps,
-      links: route.links,
-    });
-  }
-
-  setActivePage({
-    Component: React.memo(Component),
-    props: {
-      ...routeProps,
-      ...initialProps,
-      links: route.links,
-    },
-  });
-}
-
-function isFunction(fn) {
-  return typeof fn === "function";
+  return component;
 }
